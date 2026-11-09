@@ -324,6 +324,122 @@
 
     }
 
+    /* BOTÃO DE ALTERNÂNCIA DE TEMA */
+
+.botao-tema {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.icone-sol,
+.icone-lua {
+    font-size: 22px;
+    color: #333;
+}
+
+.trilho-tema {
+    width: 54px;
+    height: 28px;
+    background: #d1d5db;
+    border-radius: 30px;
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+.indicador-tema {
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.painel-page {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.painel-page.tema-escuro {
+    background-color: #171923 !important;
+    color: #f1f1f1 !important;
+}
+
+.painel-page.tema-escuro .painel-box {
+    background: #252a3a !important;
+    border-color: #3b4255 !important;
+    color: #f1f1f1 !important;
+}
+
+.painel-page.tema-escuro .painel-titulo,
+.painel-page.tema-escuro .imagem-titulo {
+    color: #f1f1f1 !important;
+}
+
+.painel-page.tema-escuro .painel-usuario {
+    background: #2d3345 !important;
+    border-color: #454d63 !important;
+    color: #e5e7eb !important;
+}
+
+.painel-page.tema-escuro .painel-usuario strong {
+    color: #93c5fd !important;
+}
+
+.painel-page.tema-escuro .imagem-box {
+    background-color: #1d2230 !important;
+    border-color: #4b556b !important;
+}
+
+.painel-page.tema-escuro .imagem-placeholder {
+    color: #cbd5e1 !important;
+}
+
+.painel-page.tema-escuro .imagem-input {
+    background-color: #1d2230 !important;
+    border-color: #4b556b !important;
+    color: #f1f1f1 !important;
+}
+
+.painel-page.tema-escuro .imagem-botao,
+.painel-page.tema-escuro .logout-botao {
+    color: #ffffff !important;
+}
+
+.painel-page.tema-escuro .imagem-botao:hover,
+.painel-page.tema-escuro .logout-botao:hover {
+    background-color: #1d4ed8 !important;
+}
+
+.painel-page.tema-escuro .painel-mensagem {
+    background-color: #183527 !important;
+    border-color: #276344 !important;
+    color: #bbf7d0 !important;
+}
+
+.painel-page.tema-escuro .icone-sol,
+.painel-page.tema-escuro .icone-lua {
+    color: #f1f1f1;
+}
+
+.painel-page.tema-escuro .trilho-tema {
+    background: #6366f1;
+}
+
+.painel-page.tema-escuro .indicador-tema {
+    transform: translateX(26px);
+}
+
 </style>
 
 {% endblock %}
@@ -331,7 +447,7 @@
 
 {% block body %}
 
-<div class="painel-page">
+<div class="painel-page{% if user.modo_escuro %} tema-escuro{% endif %}">
 
     <div class="painel-box">
 
@@ -454,6 +570,81 @@
 
     </div>
 
+    <button
+        type="button"
+        id="botao-tema"
+        class="botao-tema"
+        aria-label="Alternar entre modo claro e escuro"
+        aria-pressed="{{ user.modo_escuro|yesno:'true,false' }}"
+    >
+        <span class="icone-sol">☀</span>
+
+        <span class="trilho-tema">
+            <span class="indicador-tema"></span>
+        </span>
+
+        <span class="icone-lua">☾</span>
+    </button>
 </div>
 
+<script>
+    const botaoTema = document.getElementById('botao-tema');
+    const painel = document.querySelector('.painel-page');
+
+    function obterCookie(nome) {
+        let valor = null;
+
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+
+                if (cookie.startsWith(nome + '=')) {
+                    valor = decodeURIComponent(
+                        cookie.substring(nome.length + 1)
+                    );
+                    break;
+                }
+            }
+        }
+
+        return valor;
+    }
+    botaoTema.addEventListener('click', async function () {
+        const temaAnterior = painel.classList.contains('tema-escuro');
+        const novoTema = !temaAnterior;
+
+        painel.classList.toggle('tema-escuro', novoTema);
+
+        botaoTema.setAttribute('aria-pressed', novoTema);
+
+        try {
+            const resposta = await fetch(
+                "{% url 'alternar_tema' %}",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': obterCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        modo_escuro: novoTema
+                    })
+                }
+            );
+
+            if (!resposta.ok) {
+                throw new Error('Erro ao salvar preferência.');
+            }
+
+        } catch (erro) {
+            painel.classList.toggle('tema-escuro', temaAnterior);
+
+            botaoTema.setAttribute('aria-pressed', temaAnterior);
+
+            alert('Não foi possível salvar sua preferência de tema.');
+        }
+    });
+</script>
 {% endblock %}

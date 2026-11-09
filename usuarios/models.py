@@ -9,3 +9,5 @@ class Usuarios(AbstractUser):
         blank=True,
         null=True
     )
+    
+    modo_escuro = models.BooleanField(default=False)

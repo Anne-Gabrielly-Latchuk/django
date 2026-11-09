@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 import re #validador
 from django.core.validators import validate_email #validador de email
 from django.core.exceptions import ValidationError #validador erro
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import json
 
 from .models import Usuarios
 
@@ -209,3 +212,31 @@ def logout_view(request):
     logout(request)
 
     return redirect('login')
+
+@login_required
+@require_POST
+def alternar_tema(request):
+    try:
+        dados = json.loads(request.body)
+        modo_escuro = dados.get('modo_escuro')
+
+        if not isinstance(modo_escuro, bool):
+            return JsonResponse(
+                {'erro': 'Valor de tema inválido.'},
+                status=400
+            )
+
+        request.user.modo_escuro = modo_escuro
+        request.user.save(update_fields=['modo_escuro'])
+
+        return JsonResponse({
+            'sucesso': True,
+            'modo_escuro': request.user.modo_escuro
+        })
+
+    except (json.JSONDecodeError, TypeError):
+        return JsonResponse(
+            {'erro': 'Não foi possível atualizar o tema.'},
+            status=400
+        )
+
