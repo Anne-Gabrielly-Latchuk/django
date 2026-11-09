@@ -1,0 +1,459 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Painel de Teste{% endblock %}
+
+
+{% block head %}
+
+<style>
+
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-top: 0 !important;
+    }
+
+
+    .painel-page {
+        width: 100% !important;
+        min-height: 100vh !important;
+
+        margin: 0 !important;
+        padding: 40px 20px !important;
+
+        box-sizing: border-box !important;
+
+        background-color: #f1f3f5 !important;
+
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+
+    /* CAIXA PRINCIPAL */
+
+    .painel-box {
+        width: 100% !important;
+        max-width: 650px !important;
+
+        box-sizing: border-box !important;
+
+        padding: 40px !important;
+
+        border-radius: 20px !important;
+
+        background: rgba(255, 255, 255, 0.75) !important;
+
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+
+        border: 1px solid rgba(255, 255, 255, 0.9) !important;
+
+        box-shadow:
+            0 10px 35px rgba(0, 0, 0, 0.10) !important;
+
+        text-align: center !important;
+    }
+
+
+    /* TÍTULO */
+
+    .painel-titulo {
+        margin: 0 0 25px 0 !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 30px !important;
+
+        font-weight: 700 !important;
+
+        color: #222222 !important;
+    }
+
+
+    /* USUÁRIO LOGADO */
+
+    .painel-usuario {
+        display: inline-block !important;
+
+        margin-bottom: 30px !important;
+
+        padding: 14px 25px !important;
+
+        border-radius: 12px !important;
+
+        background: rgba(255, 255, 255, 0.70) !important;
+
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+
+        border: 1px solid rgba(255, 255, 255, 0.9) !important;
+
+        box-shadow:
+            0 4px 15px rgba(0, 0, 0, 0.06) !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 17px !important;
+
+        color: #333333 !important;
+    }
+
+
+    .painel-usuario strong {
+        color: #2563eb !important;
+    }
+
+
+    /* ÁREA DA IMAGEM */
+
+    .imagem-container {
+        width: 100% !important;
+
+        margin-bottom: 30px !important;
+    }
+
+
+    .imagem-box {
+        width: 240px !important;
+        height: 240px !important;
+
+        margin: 0 auto 20px auto !important;
+
+        overflow: hidden !important;
+
+        border-radius: 18px !important;
+
+        background-color: #e5e7eb !important;
+
+        border: 2px dashed #cbd5e1 !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+
+    .imagem-box img {
+        width: 100% !important;
+        height: 100% !important;
+
+        object-fit: cover !important;
+
+        display: block !important;
+    }
+
+
+    .imagem-placeholder {
+        padding: 20px !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 14px !important;
+
+        color: #64748b !important;
+    }
+
+
+    /* TEXTO */
+
+    .imagem-titulo {
+        margin: 0 0 10px 0 !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 15px !important;
+
+        font-weight: 600 !important;
+
+        color: #333333 !important;
+    }
+
+
+    /* INPUT */
+
+    .imagem-input {
+        width: 100% !important;
+
+        padding: 10px !important;
+
+        box-sizing: border-box !important;
+
+        border: 1px solid #d1d5db !important;
+
+        border-radius: 8px !important;
+
+        background-color: #ffffff !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 14px !important;
+
+        color: #333333 !important;
+    }
+
+
+    /* BOTÃO ATUALIZAR */
+
+    .imagem-botao {
+        width: 100% !important;
+
+        height: 48px !important;
+
+        margin-top: 12px !important;
+
+        border: none !important;
+
+        border-radius: 8px !important;
+
+        background-color: #2563eb !important;
+
+        color: #000000 !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 15px !important;
+
+        font-weight: 700 !important;
+
+        cursor: pointer !important;
+
+        transition: 0.2s ease !important;
+    }
+
+
+    .imagem-botao:hover {
+        background-color: #1d4ed8 !important;
+
+        transform: translateY(-1px) !important;
+    }
+
+
+    /* LOGOUT */
+
+    .logout-botao {
+        width: 100% !important;
+
+        height: 50px !important;
+
+        margin-top: 10px !important;
+
+        border: none !important;
+
+        border-radius: 8px !important;
+
+        background-color: #2563eb !important;
+
+        color: #000000 !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 16px !important;
+
+        font-weight: 700 !important;
+
+        cursor: pointer !important;
+
+        transition: 0.2s ease !important;
+    }
+
+
+    .logout-botao:hover {
+        background-color: #1d4ed8 !important;
+
+        transform: translateY(-1px) !important;
+    }
+
+
+    /* MENSAGENS */
+
+    .painel-mensagens {
+        width: 100% !important;
+
+        margin-bottom: 20px !important;
+    }
+
+
+    .painel-mensagem {
+        width: 100% !important;
+
+        box-sizing: border-box !important;
+
+        padding: 12px 15px !important;
+
+        margin-bottom: 8px !important;
+
+        border-radius: 8px !important;
+
+        background-color: #dcfce7 !important;
+
+        border: 1px solid #bbf7d0 !important;
+
+        color: #166534 !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 14px !important;
+    }
+
+
+    @media (max-width: 600px) {
+
+        .painel-page {
+            padding: 20px 12px !important;
+        }
+
+        .painel-box {
+            padding: 25px 20px !important;
+        }
+
+        .painel-titulo {
+            font-size: 26px !important;
+        }
+
+        .imagem-box {
+            width: 200px !important;
+            height: 200px !important;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="painel-page">
+
+    <div class="painel-box">
+
+
+        <!-- TÍTULO -->
+
+        <h1 class="painel-titulo">
+            Painel de Teste
+        </h1>
+
+
+        <!-- MENSAGENS -->
+
+        {% if messages %}
+
+            <div class="painel-mensagens">
+
+                {% for message in messages %}
+
+                    <div class="painel-mensagem">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- USUÁRIO LOGADO -->
+
+        <div class="painel-usuario">
+
+            Usuário logado:
+
+            <strong>
+                {{ user.username }}
+            </strong>
+
+        </div>
+
+
+        <!-- IMAGEM -->
+
+        <div class="imagem-container">
+
+            <div class="imagem-box">
+
+                {% if user.imagem %}
+
+                    <img
+                        src="{{ user.imagem.url }}"
+                        alt="Imagem do usuário"
+                    >
+
+                {% else %}
+
+                    <div class="imagem-placeholder">
+
+                        Nenhuma imagem cadastrada
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <p class="imagem-titulo">
+                Escolha uma imagem ou GIF
+            </p>
+
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="file"
+                    name="imagem"
+                    accept="image/png,image/jpeg,image/jpg,image/gif"
+                    class="imagem-input"
+                >
+
+
+                <button
+                    type="submit"
+                    class="imagem-botao"
+                >
+                    Atualizar imagem
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- LOGOUT -->
+
+        <form
+            method="POST"
+            action="{% url 'logout' %}"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="logout-botao"
+            >
+                Logout
+            </button>
+
+        </form>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

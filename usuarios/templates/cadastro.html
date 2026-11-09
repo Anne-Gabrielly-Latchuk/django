@@ -1,0 +1,393 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block head %}
+
+<style>
+
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-top: 0 !important;
+    }
+
+    .cadastro-page {
+        width: 100% !important;
+        min-height: 100vh !important;
+
+        margin: 0 !important;
+        padding: 40px 20px !important;
+
+        box-sizing: border-box !important;
+
+        background-color: #f1f3f5 !important;
+
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .cadastro-box {
+        width: 100% !important;
+        max-width: 650px !important;
+
+        box-sizing: border-box !important;
+
+        background-color: #ffffff !important;
+
+        padding: 40px !important;
+
+        border-radius: 16px !important;
+
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10) !important;
+    }
+
+    .cadastro-logo {
+        text-align: center !important;
+        margin-bottom: 30px !important;
+    }
+
+    .cadastro-logo img {
+        display: block !important;
+        margin: 0 auto 10px auto !important;
+    }
+
+    .cadastro-logo p {
+        margin: 0 !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 20px !important;
+        font-weight: 600 !important;
+
+        color: #222222 !important;
+    }
+
+    .cadastro-titulo {
+        margin: 0 0 30px 0 !important;
+
+        text-align: center !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 32px !important;
+        font-weight: 700 !important;
+
+        color: #222222 !important;
+    }
+
+    .cadastro-campo {
+        width: 100% !important;
+
+        margin-bottom: 22px !important;
+    }
+
+    .cadastro-campo label {
+        display: block !important;
+
+        margin-bottom: 8px !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+
+        color: #333333 !important;
+    }
+
+    .cadastro-campo input {
+        width: 100% !important;
+
+        height: 48px !important;
+
+        box-sizing: border-box !important;
+
+        padding: 0 14px !important;
+
+        border: 1px solid #d1d5db !important;
+        border-radius: 8px !important;
+
+        background-color: #ffffff !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 15px !important;
+
+        color: #222222 !important;
+
+        outline: none !important;
+    }
+
+    .cadastro-campo input:focus {
+        border-color: #2563eb !important;
+
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+    }
+
+    .cadastro-senhas {
+        width: 100% !important;
+
+        display: grid !important;
+
+        grid-template-columns: 1fr 1fr !important;
+
+        gap: 20px !important;
+
+        margin-bottom: 25px !important;
+    }
+
+    .cadastro-botao {
+        width: 100% !important;
+
+        height: 50px !important;
+
+        border: none !important;
+        border-radius: 8px !important;
+
+        background-color: #2563eb !important;
+
+        color: #000000 !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+
+        cursor: pointer !important;
+
+        transition: 0.2s ease !important;
+    }
+
+    .cadastro-botao:hover {
+        background-color: #1d4ed8 !important;
+
+        transform: translateY(-1px) !important;
+    }
+
+    .cadastro-login {
+        margin-top: 22px !important;
+
+        text-align: center !important;
+    }
+
+    .cadastro-login a {
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+
+        color: #2563eb !important;
+
+        text-decoration: none !important;
+    }
+
+    .cadastro-login a:hover {
+        text-decoration: underline !important;
+    }
+
+    .cadastro-mensagens {
+        width: 100% !important;
+
+        margin-bottom: 20px !important;
+    }
+
+    .cadastro-mensagem {
+        box-sizing: border-box !important;
+
+        width: 100% !important;
+
+        padding: 12px 15px !important;
+
+        margin-bottom: 8px !important;
+
+        border-radius: 8px !important;
+
+        background-color: #fee2e2 !important;
+
+        border: 1px solid #fecaca !important;
+
+        color: #b91c1c !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+    }
+
+    @media (max-width: 600px) {
+
+        .cadastro-page {
+            padding: 20px 12px !important;
+        }
+
+        .cadastro-box {
+            padding: 25px 20px !important;
+        }
+
+        .cadastro-senhas {
+            grid-template-columns: 1fr !important;
+            gap: 0 !important;
+        }
+
+        .cadastro-titulo {
+            font-size: 28px !important;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="cadastro-page">
+
+    <!-- CAIXA BRANCA -->
+    <div class="cadastro-box">
+
+        <!-- LOGO -->
+        <div class="cadastro-logo">
+
+            <img
+                src="#"
+                alt="Logo"
+            >
+
+            <p>
+                PACER-DEVS
+            </p>
+
+        </div>
+
+
+        <!-- TÍTULO -->
+        <h1 class="cadastro-titulo">
+            Cadastre-se
+        </h1>
+
+
+        <!-- MENSAGENS -->
+        {% if messages %}
+
+            <div class="cadastro-mensagens">
+
+                {% for message in messages %}
+
+                    <div class="cadastro-mensagem">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- FORMULÁRIO -->
+        <form
+            action="{% url 'cadastro' %}"
+            method="post"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- USERNAME -->
+            <div class="cadastro-campo">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Username ..."
+                    value="{{ request.POST.username }}"
+                >
+
+            </div>
+
+
+            <!-- E-MAIL -->
+            <div class="cadastro-campo">
+
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="email@email.com"
+                    value="{{ request.POST.email }}"
+                >
+
+            </div>
+
+
+            <!-- SENHA + CONFIRMAÇÃO -->
+            <div class="cadastro-senhas">
+
+                <!-- SENHA -->
+                <div class="cadastro-campo">
+
+                    <label for="senha">
+                        Senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        placeholder="Digite sua senha ..."
+                    >
+
+                </div>
+
+
+                <!-- CONFIRMAR SENHA -->
+                <div class="cadastro-campo">
+
+                    <label for="confirmar_senha">
+                        Confirmar senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmar_senha"
+                        name="confirmar_senha"
+                        placeholder="Digite sua senha novamente"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTÃO -->
+            <button
+                type="submit"
+                class="cadastro-botao"
+            >
+                Cadastrar
+            </button>
+
+        </form>
+
+
+        <!-- LINK LOGIN -->
+        <div class="cadastro-login">
+
+            <a href="{% url 'login' %}">
+                Já possuo uma conta
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
